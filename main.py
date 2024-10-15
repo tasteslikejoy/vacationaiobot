@@ -1,6 +1,7 @@
 import asyncio
 from aiogram import Bot, Dispatcher
-from handlers import bot_msg, user_msg, dairy
+from handlers import bot_msg, user_msg, dairy, timer
+from extensions import extensions
 from callback import pagination
 from config import config
 
@@ -10,6 +11,7 @@ async def main():
     dp = Dispatcher()
 
     dp.include_routers(
+        timer.router,
         dairy.router,
         user_msg.router,
         pagination.router,
