@@ -65,4 +65,5 @@ async def msg(message: Message):
                                  'Проверь наличие всех проводов для зарядки своих устройств. '
                                  'Их может не хватить!', reply_markup=reply.bags_kb)
     elif msg == 'интересный факт':
-        await message.answer(f'{random_fact[0][0]} {random_fact[0][1]}', reply_markup=fabrics.pag())
+        fact = random.choice(random_fact)
+        await message.answer(f'{fact}', reply_markup=reply.main_kb)
