@@ -7,11 +7,6 @@ from data.subloader import get_json
 router = Router()
 
 
-@router.message(F.text.lower().in_(['привет', 'хай']))
-async def greet(message: Message):
-    await message.reply('Приветики)')
-
-
 @router.message()
 async def msg(message: Message):
     msg = message.text.lower()
