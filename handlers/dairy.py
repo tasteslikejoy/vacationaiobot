@@ -71,7 +71,10 @@ async def handle_get_user_notes(message: Message):
     notes = await dbcreate.get_user_notes(user_chat_id)
 
     if notes:
-        notes_list = '\n'.join([note.body for note in notes])
+        notes_list = '\n'.join([
+            f'Caption: {note.caption}\nCategory: {note.category}\nBody: {note.body}'
+            for note in notes
+        ])
         await message.answer(f'Ваши заметки:\n{notes_list}')
     else:
         await message.answer('У вас нет заметок.')
