@@ -72,7 +72,7 @@ async def handle_get_user_notes(message: Message):
 
     if notes:
         notes_list = '\n'.join([
-            f'Caption: {note.caption}\nCategory: {note.category}\nBody: {note.body}'
+            f'Категория: {note.category}\nЗаголовок: {note.caption}\nЗаметка: {note.body}'
             for note in notes
         ])
         await message.answer(f'Ваши заметки:\n{notes_list}')
