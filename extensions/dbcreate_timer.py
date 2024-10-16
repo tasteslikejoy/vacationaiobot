@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, Text, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.future import select
 
@@ -18,7 +18,7 @@ class Timer(Base):
     __tablename__ = 'timers'
 
     id = Column(Integer, primary_key=True)
-    date = Column(DateTime, default=datetime.datetime.utcnow)
+    date = Column(DateTime, nullable=True)
     content = Column(Text, nullable=False)
 
 # Создаем сессию

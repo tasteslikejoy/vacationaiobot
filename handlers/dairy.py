@@ -135,7 +135,7 @@ async def handle_edit_note(message: Message, state: FSMContext):
         await message.answer('У вас нет заметок.')
 
     @router.message(lambda message: message.text and state.get_data().get('user_request') == 'edit_note')
-    async def confirm_edit_note(message: Message, state: FSMContext):
+    async def confirm_edit_note(message: Message):
         user_chat_id = message.from_user.id  # Получаем chat_id пользователя
         note_caption = message.text  # Получаем заголовок заметки для редактирования
 

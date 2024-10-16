@@ -4,6 +4,7 @@ from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 from utils.states import Formtime
 from keyboards import reply
+from extensions import dbcreate_timer
 
 
 router = Router()
@@ -36,6 +37,10 @@ async def process_time(message: Message, state: FSMContext):
         await state.update_data(time_text=time_input)
         data = await state.get_data()
         dairy = list(data.values())
+
+        # Вызываем функцию создания заметки
+        await dbcreate_timer.create_note(date=date_time, content=dairy[0])
+
         await message.answer(f'Вы создали напоминание:\n'
                              f'Напоминание: {dairy[0]}\n'
                              f'Время: {dairy[1]}\n')
