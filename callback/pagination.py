@@ -39,7 +39,7 @@ async def pagination(call: CallbackQuery, callback_data: fabrics.Pag):
     await call.answer()
 
 @router.callback_query(fabrics.Pag.filter(F.action.in_(['prev', 'next'])))
-async def pagination(call: CallbackQuery, callback_data: fabrics.Pag):
+async def pagination_cloth(call: CallbackQuery, callback_data: fabrics.Pag):
     cloth = await get_json('cloth.json')
 
     page_num = int(callback_data.page)
@@ -56,7 +56,7 @@ async def pagination(call: CallbackQuery, callback_data: fabrics.Pag):
     await call.answer()
 
 @router.callback_query(fabrics.Pag.filter(F.action.in_(['prev', 'next'])))
-async def pagination(call: CallbackQuery, callback_data: fabrics.Pag):
+async def pagination_cosm(call: CallbackQuery, callback_data: fabrics.Pag):
     cosmetics = await get_json('cosmetics.json')
 
     page_num = int(callback_data.page)
@@ -73,7 +73,7 @@ async def pagination(call: CallbackQuery, callback_data: fabrics.Pag):
     await call.answer()
 
 @router.callback_query(fabrics.Pag.filter(F.action.in_(['prev', 'next'])))
-async def pagination(call: CallbackQuery, callback_data: fabrics.Pag):
+async def pagination_el(call: CallbackQuery, callback_data: fabrics.Pag):
     electronic_equipment = await get_json('electronic_equipment.json')
 
     page_num = int(callback_data.page)
@@ -90,7 +90,7 @@ async def pagination(call: CallbackQuery, callback_data: fabrics.Pag):
     await call.answer()
 
 @router.callback_query(fabrics.Pag.filter(F.action.in_(['prev', 'next'])))
-async def pagination(call: CallbackQuery, callback_data: fabrics.Pag):
+async def pagination_med(call: CallbackQuery, callback_data: fabrics.Pag):
     medicines = await get_json('medicines.json')
 
     page_num = int(callback_data.page)
@@ -105,3 +105,5 @@ async def pagination(call: CallbackQuery, callback_data: fabrics.Pag):
             reply_markup=fabrics.pag(page)
         )
     await call.answer()
+
+

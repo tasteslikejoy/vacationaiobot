@@ -88,10 +88,10 @@ call_kb = ReplyKeyboardMarkup(
 call_timer_kb = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text='Отпуск')
+            KeyboardButton(text='Создать задачу')
         ],
         [
-            KeyboardButton(text='Создать задачу')
+            KeyboardButton(text='Отпуск')
         ]
     ],
     resize_keyboard=True
@@ -100,10 +100,10 @@ call_timer_kb = ReplyKeyboardMarkup(
 call_vacation_kb = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text='Отпуск')
+            KeyboardButton(text='Запланировать отдых')
         ],
         [
-            KeyboardButton(text='Запланировать отдых')
+            KeyboardButton(text='Отпуск')
         ]
     ],
     resize_keyboard=True

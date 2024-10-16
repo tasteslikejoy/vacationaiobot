@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.future import select
 
 # Создаем асинхронный движок для подключения к базе данных PostgreSQL
-DATABASE_URL = "postgresql+asyncpg://user:userpassword@localhost/bulletjournal"
+DATABASE_URL = "postgresql+asyncpg://user:userpassword@localhost:5433/bulletjournal"
 engine = create_async_engine(DATABASE_URL, echo=True)
 
 # Создаем базовый класс для моделей - это наследование обязательно

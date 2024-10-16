@@ -8,15 +8,13 @@ router = Router()
 
 
 # обработка команды /start
-# @router.message(CommandStart())
-# async def start_command(message:Message):
-#     chat_id = message.from_user.id
-#     try:
-#         user_id = await dbcreate.create_user(chat_id)
-#         await message.answer(f'Привет, {message.from_user.username}! Ваш {user_id}!', reply_markup=reply.main_kb)
-#     except Exception as e:
-#         await message.answer(f'Ошибка: {e}')
-
 @router.message(CommandStart())
 async def start_command(message:Message):
-    await message.answer(f'Привет, {message.from_user.username}!', reply_markup=reply.main_kb)
+    await dbcreate.init_db()
+    chat_id = message.from_user.id
+    try:
+        user_id = await dbcreate.create_user(chat_id)
+        await message.answer(f'Привет, {message.from_user.username}!', reply_markup=reply.main_kb)
+    except Exception as e:
+        await message.answer(f'Ошибка: {e}')
+
