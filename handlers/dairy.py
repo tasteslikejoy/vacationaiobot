@@ -65,3 +65,15 @@ async def form_text(message: Message, state: FSMContext):
     # Процесс завершается очисткой состояния с помощью await state.clear()
     await state.clear()
 
+@router.message(F.text.lower().in_(['список заметок']))
+async def handle_get_user_notes(message: Message):
+    user_chat_id = message.from_user.id  # Получаем chat_id пользователя
+
+    # Вызываем асинхронную функцию для получения заметок
+    notes = await dbcreate.get_user_notes(user_chat_id)
+
+    if notes:
+        notes_list = "\n".join([note.content for note in notes])  # Предполагаем, что у Note есть поле 'content'
+        await message.answer(f"Ваши заметки:\n{notes_list}")
+    else:
+        await message.answer("У вас нет заметок.")
