@@ -3,6 +3,7 @@ from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 from utils.states import Form
 from keyboards import reply
+from extensions import dbcreate
 
 
 router = Router()
@@ -40,12 +41,27 @@ async def form_text(message: Message, state: FSMContext):
     await state.update_data(text_dairy=message.text)
     # С помощью await state.get_data() бот получает все данные, введенные пользователем
     data = await state.get_data()
-    dairy = list(data.values())
+    # dairy = list(data.values())
+    category = data.get('class_dairy')  # Извлекаем категорию
+    caption = data.get('name_dairy') # Извлекаем название заметки
+    body = data['text_dairy']  # Получаем текст
+
+    # Пытаемся создать заметку
+    try:
+        note_id = await dbcreate.add_note(
+            user_chat_id=message.chat.id,
+            caption=caption,
+            category=category,
+            body=body
+        )
+        await message.answer(f'Заметка создана: {note_id}')
+    except Exception as e:
+        await message.answer(f'Ошибка: {str(e)}')
     # Бот отправляет ответ, показывая все данные, введенные пользователем в виде завершенной заметки
-    await message.answer(f'Вы создали заметку:\n'
-                         f'Категория: {dairy[0]}\n'
-                         f'Заголовок: {dairy[1]}\n'
-                         f'Заметка: {dairy[2]}')
+    # await message.answer(f'Вы создали заметку:\n'
+    #                      f'Категория: {dairy[0]}\n'
+    #                      f'Заголовок: {dairy[1]}\n'
+    #                      f'Заметка: {dairy[2]}')
     # Процесс завершается очисткой состояния с помощью await state.clear()
     await state.clear()
 
