@@ -5,21 +5,24 @@ from keyboards import reply, fabrics
 from data.subloader import get_json
 
 
-
 router = Router()
 
 
+# Декоратор указывает, что данная функция будет обрабатывать входящие сообщения
 @router.message()
+# Это асинхронная функция, которая принимает объект message типа Message, представляющий сообщение, полученное ботом
 async def msg(message: Message):
-    msg = message.text.lower()
-    bags = await get_json('bags.json')
+    msg = message.text.lower() # Получаем текст сообщения и приводим его к нижнему регистру для упрощения обработки
+    bags = await get_json('bags.json') # Здесь вызывается асинхронная функция get_json() для загрузки различных файлов JSON
     cloth = await get_json('cloth.json')
     cosmetics = await get_json('cosmetics.json')
     electronic_equipment = await get_json('electronic_equipment.json')
     medicines = await get_json('medicines.json')
     random_fact = await get_json('random.json')
 
+    # Проверяем, совпадает ли текст сообщения с ключевым словом "отпуск"
     if msg == 'отпуск':
+        # Если условие выполняется, бот отправляет пользователю сообщение с текстом и прикрепляет к нему клавиатуру
         await message.answer('Отлично! Давайте скорее соберем вещи!', reply_markup=reply.vacation_kb)
     elif msg == 'ежедневник':
         await message.answer('Ничего не забудьте!', reply_markup=reply.dairy_kb)

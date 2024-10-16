@@ -4,6 +4,7 @@ from aiogram.types import (
 )
 
 
+# Создание всех клавиатур в боте
 main_kb = ReplyKeyboardMarkup(
     keyboard=[
         [

@@ -4,12 +4,13 @@ from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 from utils.states import Formtime
 from keyboards import reply
-from contextlib import suppress
 
 
 router = Router()
 
 
+# Этот обработчик активируется, когда пользователь отправляет сообщение с текстом "/boss"
+# Логика, как в dairy
 @router.message(F.text.lower().in_(['/boss']))
 async def process_message(message: Message, state: FSMContext):
     await state.set_state(Formtime.message)
