@@ -32,7 +32,7 @@ async def init_db():
         await conn.run_sync(Base.metadata.create_all)
 
 # Функция для создания и сохранения заметки
-async def create_note(date: datetime.datetime, content: str):
+async def create_note(date: datetime, content: str):
     async with async_session() as session:
         async with session.begin():
             note = Timer(date=date, content=content)

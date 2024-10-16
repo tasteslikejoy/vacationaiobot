@@ -12,7 +12,7 @@ router = Router()
 
 # Этот обработчик активируется, когда пользователь отправляет сообщение с текстом "/boss"
 # Логика, как в dairy
-@router.message(F.text.lower().in_(['/boss']))
+@router.message(F.text.lower().in_(['создать задачу', 'запланировать отдых']))
 async def process_message(message: Message, state: FSMContext):
     await state.set_state(Formtime.message)
     await message.answer('Напоминание:', reply_markup=reply.call_kb)

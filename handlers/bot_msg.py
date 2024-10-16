@@ -34,12 +34,10 @@ async def msg(message: Message):
     elif msg == 'назад':
         await message.answer('Главное меню', reply_markup=reply.main_kb)
     elif msg == 'предупредить начальство':
-        await message.answer('Давай создадим задачу и я о ней напомню!\n'
-                             'Введите команду /boss', reply_markup=reply.call_kb)
+        await message.answer('Давай создадим задачу и я о ней напомню!', reply_markup=reply.call_timer_kb)
     elif msg == 'начать отсчет':
         await message.answer(f'Как здорово, {message.from_user.username}! '
-                             f'Когда планируем отдыхать?\n'
-                             f'Введите команду /vacation', reply_markup=reply.call_kb)
+                             f'Когда планируем отдыхать?', reply_markup=reply.call_vacation_kb)
     elif msg == 'собрать вещи':
         await message.answer('Отлично! Давай приступим!', reply_markup=reply.bags_kb)
     elif msg == 'документы':

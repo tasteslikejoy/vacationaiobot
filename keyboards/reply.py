@@ -85,6 +85,30 @@ call_kb = ReplyKeyboardMarkup(
     resize_keyboard=True
 )
 
+call_timer_kb = ReplyKeyboardMarkup(
+    keyboard=[
+        [
+            KeyboardButton(text='Отпуск')
+        ],
+        [
+            KeyboardButton(text='Создать задачу')
+        ]
+    ],
+    resize_keyboard=True
+)
+
+call_vacation_kb = ReplyKeyboardMarkup(
+    keyboard=[
+        [
+            KeyboardButton(text='Отпуск')
+        ],
+        [
+            KeyboardButton(text='Запланировать отдых')
+        ]
+    ],
+    resize_keyboard=True
+)
+
 bags_kb = ReplyKeyboardMarkup(
     keyboard=[
         [
