@@ -41,7 +41,6 @@ async def form_text(message: Message, state: FSMContext):
     await state.update_data(text_dairy=message.text)
     # С помощью await state.get_data() бот получает все данные, введенные пользователем
     data = await state.get_data()
-    # dairy = list(data.values())
     category = data.get('class_dairy')  # Извлекаем категорию
     caption = data.get('name_dairy') # Извлекаем название заметки
     body = data['text_dairy']  # Получаем текст
@@ -57,11 +56,6 @@ async def form_text(message: Message, state: FSMContext):
         await message.answer(f'Заметка создана: {note_id}')
     except Exception as e:
         await message.answer(f'Ошибка: {str(e)}')
-    # Бот отправляет ответ, показывая все данные, введенные пользователем в виде завершенной заметки
-    # await message.answer(f'Вы создали заметку:\n'
-    #                      f'Категория: {dairy[0]}\n'
-    #                      f'Заголовок: {dairy[1]}\n'
-    #                      f'Заметка: {dairy[2]}')
     # Процесс завершается очисткой состояния с помощью await state.clear()
     await state.clear()
 
@@ -73,7 +67,43 @@ async def handle_get_user_notes(message: Message):
     notes = await dbcreate.get_user_notes(user_chat_id)
 
     if notes:
-        notes_list = "\n".join([note.content for note in notes])  # Предполагаем, что у Note есть поле 'content'
+        notes_list = "\n".join([note.body for note in notes])
         await message.answer(f"Ваши заметки:\n{notes_list}")
     else:
         await message.answer("У вас нет заметок.")
+
+
+@router.message(F.text.lower().in_(['удалить заметку']))
+async def handle_delete_note(message: Message, state: FSMContext):
+    user_chat_id = message.from_user.id  # Получаем chat_id пользователя
+
+    # Получаем все заметки
+    notes = await dbcreate.get_user_notes(user_chat_id)
+
+    if notes:
+        # Формируем список заголовков заметок
+        notes_list = "\n".join([note.caption for note in notes])
+        await message.answer(f"Ваши заметки:\n{notes_list}\n"
+        "Введите заголовок заметки, которую хотите удалить:")
+
+        # Сохраняем состояние для дальнейшего использования заголовка заметки
+        await state.update_data(user_request='delete_note')
+    else:
+        await message.answer("У вас нет заметок.")
+
+    @router.message(lambda message: message.text and state.get_data().get('user_request') == 'delete_note')
+    async def confirm_delete_note(message: Message):
+
+        user_chat_id = message.from_user.id  # Получаем chat_id пользователя
+        note_caption = message.text  # Получаем заголовок заметки для удаления
+
+    # Пытаемся удалить заметку
+        try:
+            result = await dbcreate.delete_note(user_chat_id=user_chat_id, caption=note_caption)
+
+            if result:
+                await message.answer(f'Заметка "{note_caption}" была удалена.')
+            else:
+                await message.answer(f'Заметка "{note_caption}" не найдена. Пожалуйста, проверьте заголовок.')
+        except Exception as e:
+            await message.answer(f'Ошибка при удалении заметки: {str(e)}')
