@@ -36,28 +36,28 @@ async def msg(message: Message):
     elif msg == 'собрать вещи':
         await message.answer('Отлично! Давай приступим!', reply_markup=reply.bags_kb)
     elif msg == 'документы':
-        await message.answer(f'{bags[0][0]} {bags[0][1]}', reply_markup=fabrics.pag(0))
+        await message.answer(f'{bags[0][0]} {bags[0][1]}', reply_markup=fabrics.pag_bags(0))
         if bags:
             await message.answer('Подсказка: '
                                  'Некоторые документы можно отсканировать!', reply_markup=reply.bags_kb)
     elif msg == 'одежда':
-        await message.answer(f'{cloth[0][0]} {cloth[0][1]}', reply_markup=fabrics.pag(0))
+        await message.answer(f'{cloth[0][0]} {cloth[0][1]}', reply_markup=fabrics.pag_cloth(0))
         if cloth:
             await message.answer('Подсказка: '
                                  'Головной убор очень важен!\n'
                                  'Для холодных стиран не забудьте термобелье!', reply_markup=reply.bags_kb)
     elif msg == 'косметика':
-        await message.answer(f'{cosmetics[0][0]} {cosmetics[0][1]}', reply_markup=fabrics.pag(0))
+        await message.answer(f'{cosmetics[0][0]} {cosmetics[0][1]}', reply_markup=fabrics.pag_cosmetics(0))
         if cosmetics:
             await message.answer('Подсказка: '
                                  'Убедитесь, что такие объемы жидкости можно провозить!', reply_markup=reply.bags_kb)
     elif msg == 'лекарства':
-        await message.answer(f'{medicines[0][0]} {medicines[0][1]}', reply_markup=fabrics.pag(0))
+        await message.answer(f'{medicines[0][0]} {medicines[0][1]}', reply_markup=fabrics.pag_medicine(0))
         if medicines:
             await message.answer('Подсказка: '
                                  'Не забывайте заботиться о своем пищеварении!', reply_markup=reply.bags_kb)
     elif msg == 'техника':
-        await message.answer(f'{electronic_equipment[0][0]} {electronic_equipment[0][1]}', reply_markup=fabrics.pag(0))
+        await message.answer(f'{electronic_equipment[0][0]} {electronic_equipment[0][1]}', reply_markup=fabrics.pag_electronic(0))
         if electronic_equipment:
             await message.answer('Подсказка: '
                                  'Проверь наличие всех проводов для зарядки своих устройств. '

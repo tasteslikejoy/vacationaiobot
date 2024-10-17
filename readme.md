@@ -14,3 +14,5 @@
 
 пробуем изменить строку в docker-compose - на ports: - "5433:5432"
 и потом в dbcreate.py - DATABASE_URL = "postgresql+asyncpg://user:userpassword@localhost:5433/bulletjournal"
+ если вносить изменения в файле dbcreate, то необходимо удалить все бд из докера
+
