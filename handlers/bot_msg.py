@@ -1,5 +1,5 @@
 import random
-from aiogram import Router, F
+from aiogram import Router
 from aiogram.types import Message
 from keyboards import reply, fabrics
 from data.subloader import get_json

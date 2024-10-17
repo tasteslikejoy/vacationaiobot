@@ -1,4 +1,5 @@
 from aiogram import Router, F
+from aiogram.filters import StateFilter
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 from utils.states import Form
@@ -127,31 +128,54 @@ async def handle_edit_note(message: Message, state: FSMContext):
         ])
         await message.answer(f'Ваши заметки:\n{notes_list}\n'
                              'Введите ID заметки:')
-
-        # Сохраняем состояние для дальнейшего использования заголовка заметки
-        await state.update_data(user_request='note_id')
+        await state.set_state('waiting_for_note_id')
     else:
         await message.answer('У вас нет заметок.')
 
-    @router.message(lambda message: message.text and state.get_data())
-    async def confirm_edit_note(message: Message, state: FSMContext):
-        user_chat_id = message.from_user.id  # Получаем chat_id пользователя
-        note_id = message.text  # Получаем заголовок заметки для удаления
+    @router.message(StateFilter('waiting_for_note_id'))
+    async def input_note_id(message: Message, state: FSMContext):
+        note_id = message.text.strip()
 
-        # Получаем данные состояния
+        if note_id.isdigit():
+            note_id = int(note_id)
+            await state.update_data(note_id=note_id)
+            await message.answer('Введите новый заголовок для заметки:')
+            await state.set_state('waiting_for_new_caption')
+        else:
+            await message.answer('Пожалуйста, введите корректный ID заметки.')
+
+    @router.message(StateFilter('waiting_for_new_caption'))
+    async def update_note_caption(message: Message, state: FSMContext):
+        new_caption = message.text
+        await state.update_data(new_caption=new_caption)
+        await message.answer('Введите новое содержание заметки:')
+        await state.set_state('waiting_for_new_body')
+
+    @router.message(StateFilter('waiting_for_new_body'))
+    async def update_note_body(message: Message, state: FSMContext):
+        new_body = message.text
         data = await state.get_data()
+        user_chat_id = message.from_user.id
+        note_id = data.get('note_id')
+        new_caption = data.get('new_caption')
 
-        # Проверяем, что состояние соответствует ожиданиям
-        if data.get('user_request') == 'note_id':
-            # Пытаемся удалить заметку
+        if note_id is not None:
             try:
-                result = await dbcreate.edit_note(user_chat_id=user_chat_id, note_id=note_id)
+                result = await dbcreate.edit_note(
+                    user_chat_id=user_chat_id,
+                    note_id=note_id,
+                    new_caption=new_caption,
+                    new_body=new_body
+                )
 
                 if result:
                     await message.answer(f'Заметка "{note_id}" была отредактирована.')
                 else:
                     await message.answer(f'Заметка "{note_id}" не найдена. Пожалуйста, проверьте ID.')
             except Exception as e:
-                await message.answer(f'Ошибка при удалении заметки: {str(e)}')
+                await message.answer(f'Ошибка при редактировании заметки: {str(e)}')
+        else:
+            await message.answer('ID заметки не найден. Пожалуйста, попробуйте снова.')
+
         await state.finish()
 
