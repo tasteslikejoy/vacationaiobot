@@ -16,7 +16,7 @@ main_kb = ReplyKeyboardMarkup(
         ]
     ],
     resize_keyboard=True, # изменяет размер кнопок на маленькие
-    input_field_placeholder='Приступим...', # Текст отображается в поле ввода текста
+    input_field_placeholder='Я в своем познании настолько преисполнился...', # Текст отображается в поле ввода текста
 )
 
 dairy_kb = ReplyKeyboardMarkup(

@@ -22,7 +22,8 @@ async def process_message(message: Message, state: FSMContext):
 async def form_class(message: Message, state: FSMContext):
     await state.update_data(note=message.text)
     await state.set_state(Formtime.time)
-    await message.answer('Введите дату и время в формате: "YYYY-MM-DD HH:MM".', reply_markup=reply.call_kb)
+    await message.answer('Введите дату и время в формате: "YYYY-MM-DD HH:MM".\n'
+                         'Например: 2013-10-14 10:00', reply_markup=reply.call_kb)
 
 
 @router.message(Formtime.time)
@@ -56,6 +57,7 @@ async def process_time(message: Message, state: FSMContext):
         await state.clear()
 
     except ValueError:
-        await message.answer('Неверный формат времени. Пожалуйста, введите дату и время в формате: "YYYY-MM-DD HH:MM".')
+        await message.answer('Неверный формат времени. Пожалуйста, введите дату и время в формате: "YYYY-MM-DD HH:MM".\n'
+                             'Например: 2013-10-14 10:00')
     except Exception as e:
         await message.answer(f'Произошла ошибка: {str(e)}')
